@@ -66,4 +66,22 @@ router.post("/tickets", async function (req, res, next) {
   }
 });
 
+router.put("/buy", async function (req, res, next) {
+  const { cart, user } = req.body;
+
+  const newArray = cart.map((item) => {
+    return {
+      ticket_id: item.ticket_id,
+      ticket_owner: user,
+      for_sale: false,
+    };
+  });
+  const { data, error } = await supabase.from("ticketing").upsert(newArray);
+  if (error) {
+    console.log(error);
+  } else {
+    res.send("success");
+  }
+});
+
 module.exports = router;
