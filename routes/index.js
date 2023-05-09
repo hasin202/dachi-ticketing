@@ -27,7 +27,10 @@ router.get("/tickets/:ticket_id", async function (req, res, next) {
   if (error) {
     res.send(error);
   } else if (data[0].for_sale === false) {
-    res.status(404).json({heading:"Oops!",body:"Sorry but it looks like this tickets no longer for sale"})
+    res.status(404).json({
+      heading: "Oops!",
+      body: "Sorry but it looks like this tickets no longer for sale",
+    });
   } else {
     res.send(data);
   }
@@ -39,7 +42,11 @@ router.get("/user/:user_id", async function (req, res, next) {
     .select()
     .eq("ticket_owner", req.params.user_id);
   if (error) {
-    res.send(error);
+    // res.send(error);
+    res.status(404).json({
+      heading: "Oops!",
+      body: "Sorry but it looks like you dont own any tickets. Either add a ticked or buy one",
+    });
   } else {
     res.send(data);
   }
